@@ -23,8 +23,8 @@ const filefilter = (req, file, cb) => {
 }
 // Now creating the S3 instance which will be used in uploading photo to s3 bucket.
 const s3 = new Aws.S3({
-    accessKeyId:process.env.AWS_ACCESS_KEY_ID,              // accessKeyId that is stored in .env file
-    secretAccessKey:process.env.AWS_ACCESS_KEY_SECRET       // secretAccessKey is also store in .env file
+    accessKeyId:process.env.AWS_ACCESS_KEY_ID_ASSIREM,              // accessKeyId that is stored in .env file
+    secretAccessKey:process.env.AWS_ACCESS_KEY_SECRET_ASSIREM       // secretAccessKey is also store in .env file
     // accessKeyId:process.env.AWS_ACCESS_KEY_ID,              // accessKeyId that is stored in .env file
     // secretAccessKey:process.env.AWS_ACCESS_KEY_SECRET       // secretAccessKey is also store in .env file
 })
