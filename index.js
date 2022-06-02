@@ -61,7 +61,7 @@ const startServer = (port) => {
 const PORT = process.env.PORT || 5055;
 startServer(PORT);
 
-
+module.exports = app;
 // Handle rejection
 // process.on("unhandledRejection", (err, promise) => {
 //     console.log(`Error:${err.message}`);
