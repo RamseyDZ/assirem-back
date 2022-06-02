@@ -32,7 +32,7 @@ app.use(express.json())
 
 // default cors options (allowed URLs)
 var corsOptions = {
-    origin: CorsSitesList,
+    origin: [...CorsSitesList, process.env.FRONT_URL],
     optionsSuccessStatus: 200,
     credentials: true,
 };
@@ -61,7 +61,7 @@ const startServer = (port) => {
 const PORT = process.env.PORT || 5055;
 startServer(PORT);
 
-
+module.exports = app;
 // Handle rejection
 // process.on("unhandledRejection", (err, promise) => {
 //     console.log(`Error:${err.message}`);
