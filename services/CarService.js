@@ -230,6 +230,7 @@ const deleteImagesFromCar = async (req, res, next) => {
     try {
         const idCar = req.params.idCar;         
         const {imagesKeys} = req.body; 
+        console.log("imagesKeys : ", imagesKeys)
         _s3DeletePictures(imagesKeys)
             .then(async ()=>{
                 await Car.findOneAndUpdate({_id: idCar}, {$pull:{ carImages: imagesKeys }})
@@ -397,7 +398,7 @@ const _s3DeletePictures = async function (files) {
         
         console.log("objects : ", files)
         var params = {
-            Bucket: process.env.AWS_BUCKET_NAME, /* required */
+            Bucket: process.env.AWS_BUCKET_NAME_ASSIREM, /* required */
             Delete: { 
               Objects: files
             },
