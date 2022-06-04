@@ -233,15 +233,17 @@ const deleteImagesFromCar = async (req, res, next) => {
         console.log("imagesKeys : ", imagesKeys)
         _s3DeletePictures(imagesKeys)
             .then(async ()=>{
-                await Car.findOneAndUpdate({_id: idCar}, {$pull:{ carImages: imagesKeys }})
+                console.log("key image : ", imagesKeys[0])
+                await Car.findOneAndUpdate({_id: idCar}, {$pull:{ carImages: {key: imagesKeys[0].Key} }}, {new: true})
                 .then((carAfterDelete) => {
+                    console.log(carAfterDelete.carImages)
                     return res.status(_HTTP_STATUS_CODES.OK).json({
                         success: true,
                         data: carAfterDelete,
                     })
                 })
             }).catch(err => {
-                console.log(err)
+                console.log("Error : ", err)
                 return next(new ErrorResponse(err.message,_HTTP_STATUS_CODES.NOT_ACCEPTABLE));
             })  
     } catch (err) {
@@ -358,7 +360,7 @@ async function _s3UploadPictures(files, mark, model, color, yearModel){
             let tempKey = `${Date.now()}-${mark}-${model}-${color}-${yearModel}.${item.originalname.split('.').pop()}`
             tempKey.replace(" ", "_")
             var params = {
-                Bucket: process.env.AWS_BUCKET_NAME,      // bucket that we made earlier
+                Bucket: process.env.BUCKET_AWS,      // bucket that we made earlier
                 Key: `${Date.now()}-${mark}-${model}-${color}-${yearModel}.${item.originalname.split('.').pop()}` ,               // Name of the image
                 Body: item.buffer,                    // Body which will contain the image in buffer format
                 ACL: "public-read-write",                 // defining the permissions to get the public link
@@ -398,7 +400,7 @@ const _s3DeletePictures = async function (files) {
         
         console.log("objects : ", files)
         var params = {
-            Bucket: process.env.AWS_BUCKET_NAME_ASSIREM, /* required */
+            Bucket: process.env.BUCKET_AWS, /* required */
             Delete: { 
               Objects: files
             },
